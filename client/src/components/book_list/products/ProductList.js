@@ -35,7 +35,7 @@ const ProductList = () => {
       category,
     };
     const fetchProductList = async () => {
-      const resp = await fetch(`/products/all?q=${search}`, {
+      const resp = await fetch(`/api/list/products/all?q=${search}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

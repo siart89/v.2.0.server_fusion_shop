@@ -30,7 +30,7 @@ const CartRow = ({ id, count }) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const resp = await fetch(`/book/card/${id}`);
+      const resp = await fetch(`/api/info/book/card/${id}`);
       if (resp.ok) {
         const result = await resp.json();
         setCover(result.cover);

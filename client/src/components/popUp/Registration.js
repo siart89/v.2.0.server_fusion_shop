@@ -30,7 +30,7 @@ const Registration = () => {
         password,
       };
 
-      const resp = await fetch('/users/signin', {
+      const resp = await fetch('/reg/users/registration', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json; charser=utf-8',

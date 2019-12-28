@@ -31,7 +31,7 @@ const MainProfile = () => {
 
   useEffect(() => {
     const verifyUser = async () => {
-      const resp = await fetch('/user/verify', {
+      const resp = await fetch('/auth/verify', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',

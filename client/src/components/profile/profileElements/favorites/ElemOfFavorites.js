@@ -11,7 +11,7 @@ const ElemOfFavorites = ({
   reloadOnRemove,
 }) => {
   const removeOnClick = async () => {
-    const resp = await fetch(`/profile/user${id}/book${bookId}/favorites/remove`);
+    const resp = await fetch(`/profile/favor/user${id}/book${bookId}/favorites/remove`);
     if (resp.ok) {
       reloadOnRemove();
     }

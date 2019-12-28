@@ -29,7 +29,7 @@ const Comments = ({ title, closeOnClick, bookId }) => {
       author,
       rating: +rating,
     };
-    const resp = await fetch('/book/comment', {
+    const resp = await fetch('/api/info/book/comment', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

@@ -32,7 +32,7 @@ const MyBooks = () => {
   // Get current user book list from db
   useEffect(() => {
     const fetchBookList = async () => {
-      const resp = await fetch(`/api/user/${authUser.id}/booklist`, {
+      const resp = await fetch(`/api/profile/user/${authUser.id}/booklist`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -56,9 +56,10 @@ const MyBooks = () => {
       description,
       cover: url,
       category,
+      UserId: authUser.id,
     };
 
-    const resp = await fetch('/api/user/books', {
+    const resp = await fetch('/api/prod/add/product', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json; charset=utf-8',
@@ -73,11 +74,6 @@ const MyBooks = () => {
       setDescription('');
       setUrl('');
       setForUpdate(!forUpdate);
-
-      const result = await resp.json();
-      if (result.token) {
-        dispatch(toLocalStorage(result.token, result.refreshToken));
-      }
     }
   };
   // SEND the book cover and get back path right away
@@ -85,7 +81,7 @@ const MyBooks = () => {
     if (e.target.files[0]) {
       const formData = new FormData();
       formData.append('cover', e.target.files[0]);
-      const resp = await fetch('/api/book/cover', {
+      const resp = await fetch('/api/prod/cover', {
         method: 'POST',
         body: formData,
       });

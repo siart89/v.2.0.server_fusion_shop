@@ -12,7 +12,7 @@ const AddToFavorBtn = ({ bookId }) => {
 
   useEffect(() => {
     const isInFavorite = async () => {
-      const resp = await fetch(`/profile/user${id}/book${bookId}/favorites`);
+      const resp = await fetch(`/profile/favor/user${id}/book${bookId}/favorites`);
       if (resp.ok) {
         const result = await resp.json();
         setIsAdd(result.isFavor);
@@ -24,7 +24,7 @@ const AddToFavorBtn = ({ bookId }) => {
   }, [id, bookId]);
 
   const handleRemoveFromFavorites = async () => {
-    const resp = await fetch(`/profile/user${id}/book${bookId}/favorites/remove`);
+    const resp = await fetch(`/profile/favor/user${id}/book${bookId}/favorites/remove`);
     if (resp.ok) {
       const result = await resp.json();
       setIsAdd(result.isFavor);
@@ -32,7 +32,7 @@ const AddToFavorBtn = ({ bookId }) => {
   };
 
   const handleSetInFavorites = async () => {
-    const resp = await fetch(`/favorites/user${id}/book${bookId}`);
+    const resp = await fetch(`/profile/favor/user${id}/book${bookId}`);
     if (resp.ok) {
       setIsAdd(true);
     }

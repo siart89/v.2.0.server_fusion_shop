@@ -18,7 +18,7 @@ const Avatar = ({ name }) => {
     const data = new FormData();
 
     data.append('avatar', e.target.files[0]);
-    const resp = await fetch('/profile/avatar', {
+    const resp = await fetch('/api/profile/avatar', {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))} ${JSON.parse(localStorage.getItem('refreshToken'))}`,
@@ -26,9 +26,6 @@ const Avatar = ({ name }) => {
       body: data,
     });
     const result = await resp.json();
-    if (result.token) {
-      dispatch(toLocalStorage(result.token, result.refreshToken));
-    }
     dispatch(setUrl(result.url));
   };
 

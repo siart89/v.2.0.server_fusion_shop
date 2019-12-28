@@ -15,7 +15,7 @@ const MainBookCard = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const resp = await fetch(`/book/card/${id}`);
+      const resp = await fetch(`/api/info/book/card/${id}`);
       if (resp.ok) {
         const result = await resp.json();
         setInfo(result);
@@ -30,7 +30,7 @@ const MainBookCard = () => {
 
   useEffect(() => {
     const fetchingComments = async () => {
-      const resp = await fetch(`/book/comment/book/${id}`);
+      const resp = await fetch(`/api/info/book/comment/book/${id}`);
       if (resp.ok) {
         const result = await resp.json();
         setComment(result);
@@ -76,8 +76,8 @@ const MainBookCard = () => {
           comment.map((item) => (
             <CommentBLock
               key={item.id}
-              author={item.author_name}
-              date={item.created_at}
+              author={item.authorName}
+              date={item.createdAt}
               rating={item.rating}
               text={item.text}
             />

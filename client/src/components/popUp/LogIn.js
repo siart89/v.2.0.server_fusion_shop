@@ -27,7 +27,7 @@ const LogIn = () => {
         password,
       };
 
-      const res = await fetch('/user/login', {
+      const res = await fetch('/auth/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json; charset=utf-8',

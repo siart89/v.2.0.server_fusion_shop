@@ -13,7 +13,7 @@ const BookList = () => {
   useEffect(() => {
     const allTitles = [];
     const getHeaders = async () => {
-      const resp = await fetch('/product/headers');
+      const resp = await fetch('/api/list/product/headers');
       if (resp.ok) {
         const result = await resp.json();
         const set = new Set(result);
@@ -28,10 +28,12 @@ const BookList = () => {
 
   useEffect(() => {
     const fetchMaxPrice = async () => {
-      const resp = await fetch('/product/max/price');
+      const resp = await fetch('/api/list/product/max/price');
       if (resp.ok) {
         const result = await resp.json();
-        dispatch(setMaxPrice(result.max));
+        if (result) {
+          dispatch(setMaxPrice(result.max));
+        }
       }
     };
     fetchMaxPrice();

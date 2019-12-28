@@ -10,7 +10,7 @@ const Favorites = () => {
   const { id } = useSelector((state) => state.currentUser);
   useEffect(() => {
     const fetchData = async () => {
-      const resp = await fetch(`/profile/user/${id}/favorites`);
+      const resp = await fetch(`/profile/favor/user/${id}/favorites`);
       if (resp.ok) {
         const result = await resp.json();
         setFavorites(result);
@@ -30,8 +30,8 @@ const Favorites = () => {
             {favor.map((item) => (
               <ElemOfFavorites
                 key={item.id}
-                url={item.cover}
-                title={item.title}
+                url={item.Book.cover}
+                title={item.Book.title}
                 id={id}
                 bookId={+item.book_id}
                 reloadOnRemove={handleReloadOnRemove}

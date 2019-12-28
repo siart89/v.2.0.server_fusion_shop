@@ -23,7 +23,7 @@ const ProfileBoard = () => {
 
   useEffect(() => {
     const fetchNewProduct = async () => {
-      const resp = await fetch('/product/news');
+      const resp = await fetch('/api/prod/news');
       if (resp.ok) {
         const result = await resp.json();
         setNewProd(result);
