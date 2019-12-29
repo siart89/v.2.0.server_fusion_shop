@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import {
   MyBooksWrapper,
   MyBooksForm,
@@ -11,7 +11,6 @@ import {
   Select,
 } from '../../profileStyles/myBooksStyles';
 import MyBookList from './MyBookList';
-import toLocalStorage from '../../../../store/actions/toLocalStorage';
 
 
 const MyBooks = () => {
@@ -27,7 +26,6 @@ const MyBooks = () => {
 
   const authUser = useSelector((state) => state.currentUser);
   const categories = useSelector((state) => state.category);
-  const dispatch = useDispatch();
 
   // Get current user book list from db
   useEffect(() => {

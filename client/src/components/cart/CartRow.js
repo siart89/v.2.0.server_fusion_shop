@@ -18,7 +18,7 @@ import CountBtn from '../bookCard/CountBtn';
 import decrement from '../../store/actions/decrement';
 import increment from '../../store/actions/increment';
 import removeFromCart from '../../store/actions/removeFromCart';
-import formatPrice from '../actions/formatPrice';
+
 
 const CartRow = ({ id, count }) => {
   const dispatch = useDispatch();
@@ -43,8 +43,7 @@ const CartRow = ({ id, count }) => {
   }, [id]);
 
   useEffect(() => {
-    const numPrice = formatPrice(price);
-    setCost(numPrice * count);
+    setCost(price * count);
   }, [count, price]);
   return (
     <Row>

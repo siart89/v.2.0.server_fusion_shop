@@ -40,7 +40,7 @@ const ProfileBoard = () => {
               key={item.id}
               title={item.title}
               bookId={item.id}
-              count={item.count}
+              count={item.Comments.length}
             />
           ))
         ) : (

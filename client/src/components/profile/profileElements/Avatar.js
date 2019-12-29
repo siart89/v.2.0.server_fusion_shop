@@ -7,18 +7,17 @@ import {
   InputLabel,
 } from '../profileStyles/styles';
 import setUrl from '../../../store/actions/setUrl';
-import toLocalStorage from '../../../store/actions/toLocalStorage';
 
 
 const Avatar = ({ name }) => {
-  const url = useSelector((state) => state.currentUser.url);
+  const { url, id } = useSelector((state) => state.currentUser);
   const dispatch = useDispatch();
 
   const handleSendData = async (e) => {
     const data = new FormData();
 
     data.append('avatar', e.target.files[0]);
-    const resp = await fetch('/api/profile/avatar', {
+    const resp = await fetch(`/api/profile/avatar/${id}`, {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))} ${JSON.parse(localStorage.getItem('refreshToken'))}`,
@@ -26,6 +25,7 @@ const Avatar = ({ name }) => {
       body: data,
     });
     const result = await resp.json();
+    console.log(result);
     dispatch(setUrl(result.url));
   };
 

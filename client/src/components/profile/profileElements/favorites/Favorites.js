@@ -33,7 +33,7 @@ const Favorites = () => {
                 url={item.Book.cover}
                 title={item.Book.title}
                 id={id}
-                bookId={+item.book_id}
+                bookId={item.BookId}
                 reloadOnRemove={handleReloadOnRemove}
               />
             ))}

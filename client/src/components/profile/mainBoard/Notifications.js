@@ -22,8 +22,8 @@ const Notifications = ({ title, bookId, count }) => {
 
 Notifications.propTypes = {
   title: PropTypes.string.isRequired,
-  bookId: PropTypes.string.isRequired,
-  count: PropTypes.string.isRequired,
+  bookId: PropTypes.number.isRequired,
+  count: PropTypes.number,
 };
 
 export default Notifications;

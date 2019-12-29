@@ -9,7 +9,6 @@ import {
 } from '../cart/cartStyles';
 import CartRow from '../cart/CartRow';
 import CartResult from '../cart/CartResult';
-import formatPrice from '../actions/formatPrice';
 import CartTitleRow from '../cart/CartTitleRow';
 import Thanks from '../cart/Thanks';
 
@@ -21,7 +20,7 @@ const Cart = () => {
   const [showThanks, setShowThanks] = useState(false);
   useEffect(() => {
     // Calculate total price
-    const reduceMath = (res, cur) => res + (formatPrice(cur.price) * cur.count);
+    const reduceMath = (res, cur) => res + (cur.price * cur.count);
     const result = cart.reduce(reduceMath, 0);
     setTotalPrice(result);
   }, [cart]);
