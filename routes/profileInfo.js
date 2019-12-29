@@ -14,17 +14,19 @@ const setUrl = async (req, res, next) => {
       avatar: mypath,
     }, {
       where: {
-        id: req.id,
+        id: req.params.id,
       },
     });
     next();
   } catch (e) {
+    console.log(e.message);
     res.sendStatus(403);
   }
 };
 
 
-router.post('/avatar', storage.single('avatar'), setUrl, (req, res) => {
+router.post('/avatar/:id', storage.single('avatar'), setUrl, (req, res) => {
+  console.log(123123)
   res.status(200).json({ url: req.avatarPath });
 });
 

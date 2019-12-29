@@ -2,7 +2,12 @@ import { Router } from 'express';
 import db from '../models';
 
 const router = Router();
-const { Comment, Book, User } = db;
+const {
+  Comment,
+  Book,
+  User,
+  sequelize,
+} = db;
 
 
 // Set that the new comment was read
@@ -26,19 +31,18 @@ router.use('/check/book:bookId', async (req, res) => {
 router.use('/user:id', async (req, res) => {
   const { id } = req.params;
   try {
-    const data = await Comment.findAll({
+    const data = await Book.findAll({
+      where: {
+        UserId: id,
+      },
       include: [{
-        model: Book,
-        include: [{
-          model: User,
-          where: {
-            id,
-          },
-        }],
+        model: Comment,
+        where: {
+          isRead: false,
+        },
       }],
-    }, {
-      attributes: ['id', 'title', db.sequelize.fn('COUNT', db.sequelize.col('*')), 'count'],
     });
+    // console.log(data);
     res.status(200).json(data);
   } catch (e) {
     console.log(e);

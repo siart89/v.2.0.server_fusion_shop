@@ -13,11 +13,15 @@ app.use('/api/prod', require('./routes/products'));
 app.use('/api/list', require('./routes/productList'));
 app.use('/api/info', require('./routes/prodInfo'));
 app.use('/api/profile', require('./routes/profileInfo'));
-app.use('profile/favor', require('./routes/favor'));
+app.use('/profile/favor', require('./routes/favor'));
 app.use('/profile/notifications', require('./routes/notifications'));
 
 app.use('/resources', express.static(path.join(__dirname, 'uploads')));
-app.get(express.static(path.join(__dirname, '/client/public')));
+
+app.get('/*', (req, res) => {
+  res.sendFile(path.join(__dirname, `/client/${process.env.PATH_TO_STATIC}/index.html`));
+});
+
 app.listen(PORT, (e) => {
   if (e) {
     console.log(e.message);

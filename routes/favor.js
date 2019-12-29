@@ -15,7 +15,7 @@ router.use('/user:id/book:bookId/favorites/remove', async (req, res) => {
         BookId: bookId,
       },
     });
-    await res.status(200).json({ isFavor: false });
+    res.status(200).json({ isFavor: false });
   } catch (e) {
     console.log(e.message);
     res.sendStatus(500);
@@ -31,7 +31,6 @@ router.use('/user:id/book:bookId/favorites', async (req, res) => {
         BookId: bookId,
       },
     });
-
     if (isFavorite) {
       return res.status(200).json({ isFavor: true });
     }

@@ -3,8 +3,8 @@ import bodyParser from 'body-parser';
 import db from '../models';
 import upload from '../storage';
 
-const { Book, sequelize } = db;
-const { Op } = sequelize;
+const { Book, Sequelize } = db;
+const { Op } = Sequelize;
 const jsonParser = bodyParser.json();
 const router = Router();
 

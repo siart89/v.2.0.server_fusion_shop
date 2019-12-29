@@ -46,7 +46,7 @@ const makeNewSession = async (req, next, name, id) => {
       os: req.useragent.os,
     },
     secretKey,
-    { algorithm: 'HS256', expiresIn: '2h' });
+    { algorithm: 'HS256', expiresIn: '3s' });
 
     // eslint-disable-next-line require-atomic-updates
     req.userInfo = {
@@ -70,8 +70,7 @@ const authenticationUser = async (req, res, next) => {
       },
     });
     if (data.dataValues) {
-      const passWord = await bcrypt.compare(req.body.password, data.dataValues.password,);
-      console.log(passWord);
+      const passWord = await bcrypt.compare(req.body.password, data.dataValues.password);
       if (passWord) {
         makeNewSession(req, next, data.dataValues.name, data.dataValues.id);
       } else {
@@ -107,7 +106,7 @@ const checkToken = async (req, res, next) => {
         } = encod;
         const session = await Session.findOne({
           where: {
-            userId: id,
+            UserId: id,
             refreshToken,
           },
         });
@@ -139,14 +138,13 @@ router.use('/verify', checkToken, async (req, res) => {
       where: {
         id: req.id,
       },
-    }, {
       attributes: ['avatar'],
     });
     if (req.userInfo) {
       return res.status(200).json({
         token: req.userInfo.token,
         refreshToken: req.userInfo.refreshToken,
-        avatar: avatar.dataValues,
+        avatar: avatar.dataValues.avatar,
       });
     }
     return res.status(200).json(avatar.dataValues);

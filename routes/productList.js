@@ -6,7 +6,7 @@ const jsonParser = bodyParser.json();
 const router = Router();
 
 const { Book, Sequelize, sequelize } = db;
-const { Op } = sequelize;
+const { Op } = Sequelize;
 
 
 const calcOffset = (off, max) => {

@@ -57,7 +57,7 @@ router.get('/book/card/:id', async (req, res) => {
 });
 
 // ADD Comment to DB
-router.use('/book/comment', jsonParser, async (req, res) => {
+router.post('/book/comment', jsonParser, async (req, res) => {
   const comment = {
     BookId: req.body.bookId,
     text: req.body.text,
