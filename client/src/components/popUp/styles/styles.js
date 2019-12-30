@@ -86,6 +86,8 @@ const Input = styled.input`
 `;
 
 const Label = styled.label`
+  font-size:12px;
+  line-height: 30px;
   color:red;
   width:100%;
   display:inline-block;

@@ -3,34 +3,39 @@ import { useSelector } from 'react-redux';
 import Notifications from './Notifications';
 import { FlexColumn, EmptyTitle } from './styles';
 import MyBookList from '../profileElements/myBooks/MyBookList';
+import useFetch from '../../actions/fetch.hook';
 
 
 const ProfileBoard = () => {
   const [note, setNote] = useState([]);
   const { id } = useSelector((state) => state.currentUser);
   const [newProd, setNewProd] = useState([]);
+  const { fetching } = useFetch();
 
   useEffect(() => {
     const fetchNotifications = async () => {
-      const resp = await fetch(`/profile/notifications/user${id}`);
-      if (resp.ok) {
-        const result = await resp.json();
-        setNote(result);
+      try {
+        const data = await fetching(`/profile/notifications/user${id}`);
+        setNote(data);
+      } catch (e) {
+        console.error(e);
       }
     };
     fetchNotifications();
-  }, [id]);
+  }, [id, fetching]);
 
   useEffect(() => {
     const fetchNewProduct = async () => {
-      const resp = await fetch('/api/prod/news');
-      if (resp.ok) {
-        const result = await resp.json();
-        setNewProd(result);
+      try {
+        const data = await fetching('/api/prod/news');
+        setNewProd(data);
+      } catch (e) {
+        console.error(e);
       }
     };
     fetchNewProduct();
-  }, [id]);
+  }, [id, fetching]);
+
   return (
     <>
       <FlexColumn>

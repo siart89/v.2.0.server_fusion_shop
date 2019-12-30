@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import useFetch from '../../../actions/fetch.hook';
 import { FavoriteCover, FavoriteGridBox } from './styles';
 import { Title, LogOutButton } from '../../profileStyles/styles';
 
@@ -10,10 +11,14 @@ const ElemOfFavorites = ({
   bookId,
   reloadOnRemove,
 }) => {
+  const { fetching } = useFetch();
   const removeOnClick = async () => {
-    const resp = await fetch(`/profile/favor/user${id}/book${bookId}/favorites/remove`);
-    if (resp.ok) {
+    try {
+      await fetching(`/profile/favor/user${id}/book${bookId}/favorites/remove`);
       reloadOnRemove();
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.log(e);
     }
   };
 

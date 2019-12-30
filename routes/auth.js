@@ -69,15 +69,15 @@ const authenticationUser = async (req, res, next) => {
         mail: req.body.mail,
       },
     });
-    if (data.dataValues) {
+    if (data) {
       const passWord = await bcrypt.compare(req.body.password, data.dataValues.password);
       if (passWord) {
         makeNewSession(req, next, data.dataValues.name, data.dataValues.id);
       } else {
-        return res.sendStatus(400);
+        return res.status(400).json({ message: 'Неверный пароль' });
       }
     } else {
-      throw new Error('User had not created');
+      return res.status(400).json({ message: 'Неверный логин' });
     }
   } catch (e) {
     // eslint-disable-next-line no-console

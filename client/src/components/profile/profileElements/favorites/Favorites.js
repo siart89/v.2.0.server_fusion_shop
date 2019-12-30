@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
+import useFetch from '../../../actions/fetch.hook';
 import { FavoritesWrapper } from './styles';
 import ElemOfFavorites from './ElemOfFavorites';
 import { Title } from '../../profileStyles/styles';
@@ -8,16 +9,19 @@ const Favorites = () => {
   const [favor, setFavorites] = useState([]);
   const [reload, setReload] = useState(true);
   const { id } = useSelector((state) => state.currentUser);
+  const { fetching, error } = useFetch();
+
   useEffect(() => {
     const fetchData = async () => {
-      const resp = await fetch(`/profile/favor/user/${id}/favorites`);
-      if (resp.ok) {
-        const result = await resp.json();
-        setFavorites(result);
+      try {
+        const data = await fetching(`/profile/favor/user/${id}/favorites`);
+        setFavorites(data);
+      } catch (e) {
+        console.log(error);
       }
     };
     fetchData();
-  }, [id, reload]);
+  }, [id, reload, fetching, error]);
 
   const handleReloadOnRemove = () => {
     setReload(!reload);

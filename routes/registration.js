@@ -13,8 +13,8 @@ const jsonParser = bodyParser.json();
 router.post(
   '/users/registration',
   [
-    check('mail', 'Wrong email').isEmail(),
-    check('password', 'Password must be more the 6 signs').isLength({
+    check('mail', 'Неверный email').isEmail(),
+    check('password', 'Пароль должен быть больше 6 символов').isLength({
       min: 6,
     }),
   ],
@@ -24,14 +24,13 @@ router.post(
     try {
       const err = validationResult(req);
 
-      if (err.isEmpty()) {
-        return res.status(400).json({
+      if (!err.isEmpty()) {
+        return res.status(422).json({
           erros: err.array(),
         });
       }
-
       const hashPass = await bcrypt.hash(req.body.password, 8);
-      console.log(hashPass);
+
       const match = await User.findOne({
         where: {
           mail: req.body.mail,
@@ -39,7 +38,7 @@ router.post(
       });
 
       if (match) {
-        return res.status(403).send('Пользователь с такой почтой уже зарегистрирован');
+        return res.status(400).send({ message: 'Пользователь с такой почтой уже зарегистрирован' });
       }
 
       await User.create({ ...req.body, password: hashPass });

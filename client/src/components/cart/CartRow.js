@@ -18,6 +18,7 @@ import CountBtn from '../bookCard/CountBtn';
 import decrement from '../../store/actions/decrement';
 import increment from '../../store/actions/increment';
 import removeFromCart from '../../store/actions/removeFromCart';
+import useFetch from '../actions/fetch.hook';
 
 
 const CartRow = ({ id, count }) => {
@@ -27,20 +28,22 @@ const CartRow = ({ id, count }) => {
   const [author, setAuthor] = useState('');
   const [price, setPrice] = useState('');
   const [cost, setCost] = useState(null);
-
+  const { fetching, error } = useFetch();
   useEffect(() => {
     const fetchData = async () => {
-      const resp = await fetch(`/api/info/book/card/${id}`);
-      if (resp.ok) {
-        const result = await resp.json();
-        setCover(result.cover);
-        setTitle(result.title);
-        setAuthor(result.author);
-        setPrice(result.price);
+      try {
+        const data = await fetching(`/api/info/book/card/${id}`);
+        setCover(data.cover);
+        setTitle(data.title);
+        setAuthor(data.author);
+        setPrice(data.price);
+      } catch (e) {
+        // eslint-disable-next-line no-console
+        console.log(error);
       }
     };
     fetchData();
-  }, [id]);
+  }, [id, error, fetching]);
 
   useEffect(() => {
     setCost(price * count);

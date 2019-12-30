@@ -9,15 +9,21 @@ import {
   FormBtn,
 } from './styles/styles';
 import modeLog from '../../store/actions/modeLog';
+import useFetch from '../actions/fetch.hook';
 
 const Registration = () => {
   const [name, setName] = useState('');
   const [mail, setMail] = useState('');
   const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
+  const [message, setMessage] = useState(null);
   const [checkPass, setCheckPass] = useState('');
-  const [message, setMessage] = useState('');
-
+  const {
+    fetching,
+    error,
+    isLoading,
+    clearErr,
+  } = useFetch();
   const dispatch = useDispatch();
 
   const handleRegOnSubmit = async (e) => {
@@ -29,26 +35,30 @@ const Registration = () => {
         phone,
         password,
       };
-
-      const resp = await fetch('/reg/users/registration', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json; charser=utf-8',
-        },
-        body: JSON.stringify(user),
-      });
-      if (resp.status === 403) {
-        setMessage('Пользователь с данной почтой уже зарегестрирован');
-      }
-      if (resp.status === 500) {
-        setMessage('Сбой, повторите попытку');
-      }
-      if (resp.ok) {
+      try {
+        const data = await fetching(
+          '/reg/users/registration',
+          'POST',
+          {
+            'Content-Type': 'application/json',
+          },
+          JSON.stringify(user),
+        );
         dispatch(modeLog());
+      } catch (err) {
+        //console.log(JSON.parse(err));
+        console.error(err);
       }
     } else {
       setMessage('Пароль не соответствует');
       setCheckPass('');
+    }
+  };
+
+  const checkPassHandler = (e) => {
+    setCheckPass(e.target.value);
+    if (message) {
+      setMessage(null);
     }
   };
 
@@ -57,8 +67,8 @@ const Registration = () => {
       <FormTitle>
         Зарегистрировать аккаунт на сайте:
       </FormTitle>
-      {message && <FormTitle style={{ color: 'red' }}>{message}</FormTitle>}
-      <Form onSubmit={handleRegOnSubmit} onChange={() => setMessage('')}>
+      {(error && !error.startsWith('{')) && <FormTitle style={{ color: 'red' }}>{error}</FormTitle>}
+      <Form onSubmit={handleRegOnSubmit} onChange={() => clearErr()}>
         <Div>
           <Label>
             <Input
@@ -79,6 +89,7 @@ const Registration = () => {
               required
               placeholder="Электронная почта"
             />
+            {(error && error.startsWith('{') && JSON.parse(error).mail) && JSON.parse(error).mail}
           </Label>
         </Div>
         <Div>
@@ -101,20 +112,22 @@ const Registration = () => {
               required
               placeholder="Пароль"
             />
+            {(error && error.startsWith('{') && JSON.parse(error).password) && JSON.parse(error).password}
           </Label>
         </Div>
         <Div>
           <Label>
             <Input
               type="password"
-              onChange={(e) => setCheckPass(e.target.value)}
+              onChange={checkPassHandler}
               value={checkPass}
               required
               placeholder="Подтверждение пароля"
             />
+            {message}
           </Label>
         </Div>
-        <FormBtn>
+        <FormBtn type="submit" disabled={isLoading}>
           Зарегистрироваться
         </FormBtn>
       </Form>

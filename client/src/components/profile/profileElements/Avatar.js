@@ -7,26 +7,32 @@ import {
   InputLabel,
 } from '../profileStyles/styles';
 import setUrl from '../../../store/actions/setUrl';
+import useFetch from '../../actions/fetch.hook';
 
 
 const Avatar = ({ name }) => {
   const { url, id } = useSelector((state) => state.currentUser);
   const dispatch = useDispatch();
+  const { fetching, error } = useFetch();
 
   const handleSendData = async (e) => {
     const data = new FormData();
-
     data.append('avatar', e.target.files[0]);
-    const resp = await fetch(`/api/profile/avatar/${id}`, {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))} ${JSON.parse(localStorage.getItem('refreshToken'))}`,
-      },
-      body: data,
-    });
-    const result = await resp.json();
-    console.log(result);
-    dispatch(setUrl(result.url));
+
+    try {
+      const ava = await fetching(
+        `/api/profile/avatar/${id}`,
+        'POST',
+        {
+          Authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))} ${JSON.parse(localStorage.getItem('refreshToken'))}`,
+        },
+        data,
+      );
+      dispatch(setUrl(ava.url));
+    } catch (err) {
+      // eslint-disable-next-line no-console
+      console.error(error);
+    }
   };
 
   return (

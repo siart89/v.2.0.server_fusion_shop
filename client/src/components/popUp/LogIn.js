@@ -11,12 +11,18 @@ import {
 import logIn from '../../store/actions/logIn';
 import togglePopUp from '../../store/actions/togglePopUp';
 import toLocalStorage from '../../store/actions/toLocalStorage';
+import useFetch from '../actions/fetch.hook';
 
 const LogIn = () => {
   const [mail, setMail] = useState('');
   const [password, setPassword] = useState('');
-  const [message, setMessage] = useState('');
 
+  const {
+    fetching,
+    isLoading,
+    error,
+    clearErr,
+  } = useFetch();
   const dispatch = useDispatch();
 
   const handleLogInOnSubm = async (e) => {
@@ -26,34 +32,39 @@ const LogIn = () => {
         mail,
         password,
       };
-
-      const res = await fetch('/auth/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json; charset=utf-8',
-        },
-        body: JSON.stringify(userData),
-      });
-
-      if (res.ok) {
-        const result = await res.json();
+      try {
+        const data = await fetching(
+          '/auth/login',
+          'POST',
+          {
+            'Content-Type': 'application/json; charset=utf-8',
+          },
+          JSON.stringify(userData),
+        );
         // set Token and userName into local storage
-        dispatch(logIn(result.name, result.id));
-        dispatch(toLocalStorage(result.token, result.refreshToken));
+        dispatch(logIn(data.name, data.id));
+        dispatch(toLocalStorage(data.token, data.refreshToken));
         // if result ok hide Pop-Up window with REG- LOG mode
         dispatch(togglePopUp());
-      } else {
-        setMessage('Почта или пароль указаны неверно');
+      } catch (err) {
+        // eslint-disable-next-line no-console
+        console.error(err);
       }
     }
   };
+  const clearErrMessHandler = () => {
+    if (error) {
+      clearErr();
+    }
+  };
+
   return (
     <>
       <FormTitle>
         Войти
       </FormTitle>
-      {message && <FormTitle>{message}</FormTitle>}
-      <Form onSubmit={handleLogInOnSubm}>
+      {error && <FormTitle>{error}</FormTitle>}
+      <Form onSubmit={handleLogInOnSubm} onChange={clearErrMessHandler}>
         <Div>
           <Label>
             <Input
@@ -76,7 +87,7 @@ const LogIn = () => {
             />
           </Label>
         </Div>
-        <FormBtn type="submit">
+        <FormBtn type="submit" disabled={isLoading}>
           Войти
         </FormBtn>
       </Form>

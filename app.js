@@ -7,6 +7,7 @@ const PORT = process.env.PORT || 5000;
 
 const app = express();
 app.use(useragent.express());
+app.use(express.json());
 app.use('/reg', require('./routes/registration'));
 app.use('/auth', require('./routes/auth'));
 app.use('/api/prod', require('./routes/products'));
