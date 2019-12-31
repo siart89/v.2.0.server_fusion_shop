@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { FilterForm, FilterTitle, Label } from '../listFilterStyles';
-import setCategory from './../../../../store/actions/setCategory';
+import setCategory from '../../../../store/actions/setCategory';
 
 const CategoryFilter = () => {
   const category = useSelector((state) => state.category);

@@ -67,7 +67,7 @@ router.post('/book/comment', jsonParser, async (req, res) => {
   try {
     await Comment.create(comment);
     setRating(comment.BookId);
-    res.sendStatus(200);
+    res.status(200).json({ message: 'Комментарий добавлен' });
   } catch (e) {
     res.sendStatus(500);
     // eslint-disable-next-line no-console

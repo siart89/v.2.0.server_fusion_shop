@@ -110,7 +110,7 @@ const checkToken = async (req, res, next) => {
             refreshToken,
           },
         });
-        if (session.dataValues) {
+        if (session) {
           if (ip === req.ip && os === req.useragent.os) {
             makeNewSession(req, next, name, id);
             // eslint-disable-next-line require-atomic-updates

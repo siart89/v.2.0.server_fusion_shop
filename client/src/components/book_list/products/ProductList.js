@@ -5,6 +5,7 @@ import ProductListTop from './top/ProductListTop';
 import Product from './mainProdList/Product';
 import { ProdGridBox } from './mainProdList/styles';
 import setInfoOfProd from '../../../store/actions/setInfoOfProd';
+import useFetch from '../../actions/fetch.hook';
 
 const ProductList = () => {
   const [products, setProducts] = useState([]);
@@ -20,6 +21,7 @@ const ProductList = () => {
     category,
     sale,
   } = useSelector((state) => state.products);
+  const { fetching } = useFetch();
 
   useEffect(() => {
     const info = {
@@ -35,24 +37,24 @@ const ProductList = () => {
       category,
     };
     const fetchProductList = async () => {
-      const resp = await fetch(`/api/list/products/all?q=${search}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(info),
-      });
-      if (resp.ok) {
-        const result = await resp.json();
-        setProducts(result.product);
-        if (result.product) {
+      try {
+        const data = await fetching(
+          `/api/list/products/all?q=${search}`,
+          'POST',
+          {
+            'Content-Type': 'application/json',
+          },
+          JSON.stringify(info),
+        );
+        setProducts(data.product);
+        if (data.product) {
           // if result has matches
-          dispatch(setInfoOfProd(result.product.length, result.count));
+          dispatch(setInfoOfProd(data.product.length, data.count));
         } else {
           // if result is empty
           dispatch(setInfoOfProd(0, 0));
         }
-      } else {
+      } catch (e) {
         setMessage(true);
       }
     };
@@ -67,6 +69,7 @@ const ProductList = () => {
     priceFilter,
     category,
     sale,
+    fetching,
   ]);
 
   const prodList = (products ? (products.map((item) => (

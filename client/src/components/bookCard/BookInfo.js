@@ -25,7 +25,7 @@ const BookInfo = ({
       <BookTitle>
         {title}
       </BookTitle>
-      <AddToFavorBtn bookId={bookId} />
+      {localStorage.getItem('token') && <AddToFavorBtn bookId={bookId} />}
     </TitleRowGrid>
     <TitleRowGrid>
       <BookStyledText>

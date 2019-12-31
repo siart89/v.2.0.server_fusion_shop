@@ -21,6 +21,7 @@ import toLocalStorage from '../../store/actions/toLocalStorage';
 import ProfileBoard from '../profile/mainBoard/ProfileBoard';
 import logOut from '../../store/actions/logOut';
 import Page404 from './Page404';
+import useFetch from '../actions/fetch.hook';
 
 const MainProfile = () => {
   const [isAuth, setIsAuth] = useState(false);
@@ -28,30 +29,31 @@ const MainProfile = () => {
   const isBooks = useRouteMatch('/profile/mybooks');
   const isFavor = useRouteMatch('/profile/favorites');
   const match = useRouteMatch();
+  const { fetching } = useFetch();
 
   useEffect(() => {
     const verifyUser = async () => {
-      const resp = await fetch('/auth/verify', {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))} ${JSON.parse(localStorage.getItem('refreshToken'))}`,
-        },
-      });
-      if (resp.ok) {
-        const result = await resp.json();
-        if (result.token) {
-          dispatch(toLocalStorage(result.token, result.refreshToken));
+      try {
+        const data = await fetching(
+          '/auth/verify',
+          'POST',
+          {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))} ${JSON.parse(localStorage.getItem('refreshToken'))}`,
+          },
+        );
+        if (data.token) {
+          dispatch(toLocalStorage(data.token, data.refreshToken));
         }
-        dispatch(setUrl(result.avatar));
+        dispatch(setUrl(data.avatar));
         setIsAuth(true);
-      } else {
+      } catch (e) {
         dispatch(logOut());
         dispatch({ type: 'CLEAR_CART' });
       }
     };
     verifyUser();
-  }, [dispatch]);
+  }, [dispatch, fetching]);
 
   return (
     <>

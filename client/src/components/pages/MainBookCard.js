@@ -6,40 +6,43 @@ import PriceInfo from '../bookCard/PriceInfo';
 import Comments from '../comments/Comments';
 import CommentBLock from '../commentBlock/CommentBlock';
 import { GridBox } from '../commentBlock/styles';
+import useFetch from '../actions/fetch.hook';
 
 const MainBookCard = () => {
   const [info, setInfo] = useState(null);
   const { id } = useParams();
   const [showComment, setShowComment] = useState(false);
   const [comment, setComment] = useState([]);
+  const { fetching } = useFetch();
 
   useEffect(() => {
     const fetchData = async () => {
-      const resp = await fetch(`/api/info/book/card/${id}`);
-      if (resp.ok) {
-        const result = await resp.json();
-        setInfo(result);
-      } else {
+      try {
+        const data = await fetching(`/api/info/book/card/${id}`);
+        setInfo(data);
+      } catch (e) {
         setInfo(null);
       }
     };
     if (!showComment) {
       fetchData();
     }
-  }, [id, showComment]);
+  }, [id, showComment, fetching]);
 
   useEffect(() => {
     const fetchingComments = async () => {
-      const resp = await fetch(`/api/info/book/comment/book/${id}`);
-      if (resp.ok) {
-        const result = await resp.json();
-        setComment(result);
+      try {
+        const data = await fetching(`/api/info/book/comment/book/${id}`);
+        setComment(data);
+      } catch (e) {
+        // eslint-disable-next-line no-console
+        console.error(e);
       }
     };
     if (!showComment) {
       fetchingComments();
     }
-  }, [id, showComment]);
+  }, [id, showComment, fetching]);
 
   const handleCloseComment = () => {
     setShowComment(false);

@@ -14,12 +14,14 @@ import {
   RowGrid,
 } from './styles';
 import Stars from './Stars';
+import useFetch from '../actions/fetch.hook';
 
 const Comments = ({ title, closeOnClick, bookId }) => {
   const [text, setText] = useState('');
   const [author, setAuthor] = useState('');
   const [message, setMessage] = useState(false);
   const [rating, setRating] = useState(null);
+  const { fetching } = useFetch();
 
   const handleFetchData = async (e) => {
     e.preventDefault();
@@ -29,18 +31,19 @@ const Comments = ({ title, closeOnClick, bookId }) => {
       author,
       rating: +rating,
     };
-    const resp = await fetch('/api/info/book/comment', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(comment),
-    });
-    if (resp.ok) {
+    try {
+      await fetching(
+        '/api/info/book/comment',
+        'POST',
+        {
+          'Content-Type': 'application/json',
+        },
+        JSON.stringify(comment),
+      );
       setAuthor('');
       setText('');
-      await closeOnClick();
-    } else {
+      closeOnClick();
+    } catch (err) {
       setMessage(true);
     }
   };

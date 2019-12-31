@@ -29,6 +29,7 @@ const CartRow = ({ id, count }) => {
   const [price, setPrice] = useState('');
   const [cost, setCost] = useState(null);
   const { fetching, error } = useFetch();
+
   useEffect(() => {
     const fetchData = async () => {
       try {
