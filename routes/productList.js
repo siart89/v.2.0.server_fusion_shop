@@ -19,51 +19,44 @@ const getsResult = async (req, res, next) => {
   let result;
 
   try {
+    const customWhere = {
+      sale: req.body.sale,
+    };
+    if (req.body.category) {
+      customWhere.category = {
+        [Op.iLike]: req.body.category,
+      };
+    }
+    if (req.query.q) {
+      customWhere[Op.or] = [
+        {
+          author: {
+            [Op.iLike]: `%${req.query.q}%`,
+          },
+        },
+        {
+          title: {
+            [Op.iLike]: `%${req.query.q}%`,
+          },
+        },
+      ];
+    }
+    if (req.body.cost.min) {
+      customWhere.price = {
+        [Op.between]: [req.body.cost.min, req.body.cost.max],
+      };
+    }
+
     result = await Book.findAll({
-      where: {
-        sale: req.body.sale,
-      },
+      where: customWhere,
+      raw: true,
       offset,
       limit: req.body.limit,
       order: [[req.body.sort, req.body.incDec]],
     });
-    if (req.query.q) {
-      result = await result.findAll({
-        where: {
-          [Op.or]: [
-            {
-              author: {
-                [Op.iLike]: `%${req.query.q}%`,
-              },
-              title: {
-                [Op.iLike]: `%${req.query.q}%`,
-              },
-            },
-          ],
-        },
-      });
-    }
-    if (req.body.category) {
-      result = await result.findAll({
-        where: {
-          category: {
-            [Op.iLike]: req.body.category,
-          },
-        },
-      });
-    }
-    if (req.body.cost.min) {
-      result = await result.findAll({
-        where: {
-          price: {
-            [Op.between]: [req.body.cost.min, req.body.cost.max],
-          },
-        },
-      });
-    }
 
     const data = {
-      product: result.map((item) => item.dataValues),
+      product: result,
       count: result.length,
     };
     // eslint-disable-next-line require-atomic-updates
