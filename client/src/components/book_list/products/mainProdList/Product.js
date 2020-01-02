@@ -18,6 +18,17 @@ const Product = ({
   id,
 }) => {
   const [isHover, setIsHover] = useState(false);
+
+  const formatingText = (text, name) => {
+    if (name === 'title' && text.length > 38) {
+      return `${text.slice(0, 37)}...`;
+    }
+    if (name === 'author' && text.length > 25) {
+      return `${text.slice(0, 24)}...`;
+    }
+    return text;
+  };
+
   return (
     <ProductCont
       hover={isHover}
@@ -31,10 +42,10 @@ const Product = ({
       </CoverBox>
 
       <ProdTitle hover={isHover}>
-        {title}
+        {formatingText(title, 'title')}
       </ProdTitle>
       <ProdAuthor>
-        {author}
+        {formatingText(author, 'author')}
       </ProdAuthor>
       <PriceInfo
         price={price}

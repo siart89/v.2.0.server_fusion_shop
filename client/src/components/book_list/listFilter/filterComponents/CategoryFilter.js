@@ -14,6 +14,8 @@ const CategoryFilter = () => {
       dispatch(setCategory(''));
     }
   };
+
+
   return (
     <FilterForm name="category">
       <FilterTitle>
@@ -25,7 +27,12 @@ const CategoryFilter = () => {
           htmlFor={item}
           onChange={(e) => handleCategoryFilter(e.target.value)}
         >
-          <input type="radio" name="category" id={item} value={item} />
+          <input
+            type="radio"
+            name="category"
+            id={item}
+            value={item}
+          />
           {item}
         </Label>
       ))}

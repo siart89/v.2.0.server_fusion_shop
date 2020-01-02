@@ -25,6 +25,7 @@ module.exports = {
       },
       rating: {
         type: Sequelize.REAL,
+        defaultValue: null,
       },
       category: {
         type: Sequelize.STRING,
@@ -42,7 +43,7 @@ module.exports = {
         type: Sequelize.DATE,
       },
       UserId: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
       },
     })
   ),

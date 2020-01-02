@@ -54,10 +54,13 @@ const getsResult = async (req, res, next) => {
       limit: req.body.limit,
       order: [[req.body.sort, req.body.incDec]],
     });
+    const count = await Book.findAll({
+      where: customWhere,
+    });
 
     const data = {
       product: result,
-      count: result.length,
+      count: count.length,
     };
     // eslint-disable-next-line require-atomic-updates
     req.data = data;
@@ -101,6 +104,7 @@ router.get('/product/max/price', async (req, res) => {
         ],
         raw: true,
       });
+      console.log(data)
       res.status(200).json(data);
     } else {
       res.sendStatus(403);

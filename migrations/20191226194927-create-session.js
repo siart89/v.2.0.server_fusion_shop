@@ -32,7 +32,7 @@ module.exports = {
         type: Sequelize.DATE,
       },
       UserId: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
       },
     })
   ),

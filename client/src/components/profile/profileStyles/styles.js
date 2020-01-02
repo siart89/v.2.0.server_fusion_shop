@@ -97,7 +97,7 @@ const ProfContent = styled.div`
   max-height: 260px;
   display:grid;
   grid-column-gap: 50px;
-  grid-template-columns: 1fr minmax(300px, auto);
+  grid-template-columns: 1fr minmax(auto, 375px);
 `;
 
 const ProfTitle = styled.span`

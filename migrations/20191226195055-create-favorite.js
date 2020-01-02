@@ -16,7 +16,7 @@ module.exports = {
         type: Sequelize.DATE,
       },
       UserId: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.UUID,
       },
       BookId: {
         type: Sequelize.INTEGER,

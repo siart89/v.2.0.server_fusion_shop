@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { CloseBtn } from '../../popUp/styles/styles';
 
 const FilterWrapper = styled.div`
@@ -44,6 +44,9 @@ const Label = styled.label`
   &:hover{
     color:#42CEE2;
   }
+${(props) => props.isactive && css`
+  color:#42CEE2;
+`}
 `;
 const CustomFilterForm = styled.form`
   display:flex;
