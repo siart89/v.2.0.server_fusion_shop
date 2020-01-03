@@ -98,13 +98,11 @@ router.get('/product/max/price', async (req, res) => {
     const book = await Book.findAll();
     if (book) {
       const data = await Book.findOne({
-        group: ['id'],
         attributes: [
           [sequelize.fn('max', sequelize.col('price')), 'max'],
         ],
         raw: true,
       });
-      console.log(data)
       res.status(200).json(data);
     } else {
       res.sendStatus(403);

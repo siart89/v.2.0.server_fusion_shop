@@ -15,7 +15,7 @@ import incDecSort from '../../../../store/actions/incDecSort';
 
 const typesOfSort = [{
   name: 'По умолчанию',
-  value: 'created_at',
+  value: 'createdAt',
 },
 {
   name: 'Автору',

@@ -3,10 +3,13 @@ import { Router } from 'express';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import bodyParser from 'body-parser';
+import config from 'config';
 import db from '../models';
 
+const { secretKey } = config.get('variables');
+
 const jsonParser = bodyParser.json();
-const secretKey = process.env.SECRET_KEY;
+
 
 const { Session, User } = db;
 
@@ -46,7 +49,7 @@ const makeNewSession = async (req, next, name, id) => {
       os: req.useragent.os,
     },
     secretKey,
-    { algorithm: 'HS256', expiresIn: '3s' });
+    { algorithm: 'HS256', expiresIn: '2h' });
 
     // eslint-disable-next-line require-atomic-updates
     req.userInfo = {

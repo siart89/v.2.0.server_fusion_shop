@@ -1,0 +1,15 @@
+{
+  "dbConfig": {
+    "username": "postgres",
+    "password": "drevnieslezi2012",
+    "database": "dev_test_db",
+    "host": "127.0.0.1",
+    "dialect": "postgres",
+    "operatorsAliases": false
+  },
+  "variables": {
+    "port": "5000",
+    "url": "http://localhost:3000",
+    "secretKey": "meSecretKey77$#ass^^#3"
+  }
+}

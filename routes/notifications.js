@@ -5,8 +5,6 @@ const router = Router();
 const {
   Comment,
   Book,
-  User,
-  sequelize,
 } = db;
 
 

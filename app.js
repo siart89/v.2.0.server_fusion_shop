@@ -1,9 +1,9 @@
 import express from 'express';
 import useragent from 'express-useragent';
 import path from 'path';
+import config from 'config';
 
-
-const PORT = process.env.PORT || 5000;
+const { port } = config.get('variables');
 
 const app = express();
 app.use(useragent.express());
@@ -20,13 +20,13 @@ app.use('/profile/notifications', require('./routes/notifications'));
 app.use('/resources', express.static(path.join(__dirname, 'uploads')));
 
 app.get('/*', (req, res) => {
-  res.sendFile(path.join(__dirname, `/client/${process.env.PATH_TO_STATIC}/index.html`));
+  res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
 });
 
-app.listen(PORT, (e) => {
+app.listen(port, (e) => {
   if (e) {
     console.log(e.message);
   } else {
-    console.log('Server has been started on port:', PORT);
+    console.log('Server has been started on port:', port);
   }
 });

@@ -1,7 +1,10 @@
 import { Router } from 'express';
 import bodyParser from 'body-parser';
+import config from 'config';
 import db from '../models';
 import upload from '../storage';
+
+const { url } = config.get('variables');
 
 const { Book, Sequelize } = db;
 const { Op } = Sequelize;
@@ -9,7 +12,7 @@ const jsonParser = bodyParser.json();
 const router = Router();
 
 router.post('/cover', upload.single('cover'), (req, res) => {
-  const mypath = `http://localhost:3000/resources/${req.file.filename}`;
+  const mypath = `${url}/resources/${req.file.filename}`;
   res.status(200).json({ path: mypath });
 });
 

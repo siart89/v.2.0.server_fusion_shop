@@ -1,0 +1,15 @@
+{
+  "dbConfig": {
+    "username": "username",
+    "password": "password",
+    "database": "db_name",
+    "host": "bd_hosting",
+    "dialect": "postgres",
+    "operatorsAliases": false
+  },
+  "variables": {
+    "port": "80",
+    "url": "hosting",
+    "secretKey": "some_secret_key"
+  }
+}

@@ -36,7 +36,7 @@ const Favorites = () => {
                 key={item.id}
                 url={item.Book.cover}
                 title={item.Book.title}
-                id={id}
+                id={+id}
                 bookId={item.BookId}
                 reloadOnRemove={handleReloadOnRemove}
               />

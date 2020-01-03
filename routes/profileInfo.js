@@ -1,13 +1,16 @@
 import { Router } from 'express';
+import config from 'config';
 import storage from '../storage';
 import db from '../models';
 
+
+const { url } = config.get('variables');
 const { User, Book } = db;
 const router = Router();
 
 const setUrl = async (req, res, next) => {
   // path for local server
-  const mypath = `http://localhost:3000/resources/${req.file.filename}`;
+  const mypath = `${url}/${req.file.filename}`;
   req.avatarPath = mypath;
   try {
     await User.update({
@@ -26,7 +29,6 @@ const setUrl = async (req, res, next) => {
 
 
 router.post('/avatar/:id', storage.single('avatar'), setUrl, (req, res) => {
-  console.log(123123)
   res.status(200).json({ url: req.avatarPath });
 });
 
