@@ -19,14 +19,17 @@ app.use('/profile/notifications', require('./routes/notifications'));
 
 app.use('/resources', express.static(path.join(__dirname, 'uploads')));
 
-app.get('/*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
-});
+if (process.env.NODE_ENV === 'production') {
+  app.get('/*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
+  });
+}
+
 
 app.listen(port, (e) => {
   if (e) {
     console.log(e.message);
   } else {
-    console.log('Server has been started on port:', port);
+    console.log('Server has started on port:', port);
   }
 });
