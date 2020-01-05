@@ -5,6 +5,7 @@ import setCategory from '../../../../store/actions/setCategory';
 
 const CategoryFilter = () => {
   const category = useSelector((state) => state.category);
+  const activeCategory = useSelector((state) => state.products.category);
   const dispatch = useDispatch();
 
   const handleCategoryFilter = (value) => {
@@ -15,6 +16,11 @@ const CategoryFilter = () => {
     }
   };
 
+  const compareCategory = (cur, act) => {
+    if (cur === act) return true;
+    if (cur === 'Все' && act === '') return true;
+    return false;
+  };
 
   return (
     <FilterForm name="category">
@@ -26,6 +32,7 @@ const CategoryFilter = () => {
           key={item}
           htmlFor={item}
           onChange={(e) => handleCategoryFilter(e.target.value)}
+          isactive={compareCategory(item, activeCategory)}
         >
           <input
             type="radio"

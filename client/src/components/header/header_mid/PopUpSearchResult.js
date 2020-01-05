@@ -14,7 +14,6 @@ const PopUpSearchResult = ({ text, isFocus, setValue }) => {
     if (text && headers) {
       // eslint-disable-next-line no-useless-escape
       const reg = new RegExp(String.raw`${text.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&')}`, 'gi');
-      console.log(reg)
       const allMatchArr = headers.filter((item) => item.match(reg));
       setMatch(allMatchArr);
     } else {
