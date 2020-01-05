@@ -150,7 +150,7 @@ const PopUpDiv = styled.div`
   top: 50px;
   transition: all 0.3s ease-in-out;
   grid-template-columns: 1fr;
-  grid-auto-rows: 25px;
+  grid-auto-rows: minmax(25px, auto);
   background-color:#fff;
   opacity: 0.6;
 `;
