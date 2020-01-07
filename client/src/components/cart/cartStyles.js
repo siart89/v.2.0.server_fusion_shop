@@ -41,7 +41,7 @@ const Row = styled.div`
   padding: 10px 0 10px 5px;
   border-radius: 3px;
   box-shadow: 0 4px 5px #b3b3b3;
-  grid-template-columns: 100px 1fr minmax(150px, auto) minmax(150px, auto) minmax(150px, auto) 50px;
+  grid-template-columns: 100px minmax(auto, 550px) minmax(150px, auto) minmax(150px, auto) minmax(150px, auto) 50px;
 `;
 
 const RowBookCover = styled.img`
@@ -61,6 +61,7 @@ const RowInfo = styled.div`
   display:flex;
   flex-direction: column;
   margin-left: 70px;
+  flex-flow: wrap;
 `;
 const CartRowTitle = styled(Link)`
   text-decoration:none;
