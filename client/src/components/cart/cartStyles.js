@@ -61,7 +61,6 @@ const RowInfo = styled.div`
   display:flex;
   flex-direction: column;
   margin-left: 70px;
-  flex-flow: wrap;
 `;
 const CartRowTitle = styled(Link)`
   text-decoration:none;
@@ -69,7 +68,7 @@ const CartRowTitle = styled(Link)`
   font-size: 15px;
   line-height: 20px;
   font-weight: 500;
-  width: max-content;
+  width: inherit;
 `;
 const CartMainText = styled.span`
   font-size: 12px;
