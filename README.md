@@ -10,9 +10,9 @@ in a root directory, then you can change directory to *client* and
 
 `npm install`
 
-Before start the project you have to install _PostgresSQL_ to your local machine and create a data base. Then open the config file for development mode `./config/development.json` and set configurations of your data base.
+Before start the project you have to install _PostgresSQL_ to your local machine and create a data base. Then open the config file for development mode `./config/config.js` and set configurations of your data base.
 
-"dbConfig": {
+{
 
     "username": "DBUserName",
 
@@ -23,8 +23,6 @@ Before start the project you have to install _PostgresSQL_ to your local machine
     "host": "127.0.0.1",
 
     "dialect": "postgres",
-
-    "operatorsAliases": false
 },
 
 After installed and seted all configurations for the data base run 
@@ -33,7 +31,7 @@ After installed and seted all configurations for the data base run
 
 then 
 
-`npx sequelize-cli db:seed`.
+`npx sequelize-cli db:seed:all`.
 
 Now you have two demo users with own books:
 
